@@ -106,7 +106,7 @@ export default {
     },
     async nuevo(item) {
       try {
-        await this.axios.post('/libros', item)
+        await this.axios.post(process.env.VUE_APP_API_URL+'/libros', item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -115,7 +115,7 @@ export default {
     },
     async modificar(item) {
       try {
-        await this.axios.patch(`/libros/${item.id}`, item)
+        await this.axios.patch(process.env.VUE_APP_API_URL+`/libros/${item.id}`, item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -125,7 +125,7 @@ export default {
     async eliminar(item) {
       if (confirm(`¿Está seguro de eliminar el libro "${item.titulo}"?`)) {
         try {
-          await this.axios.delete(`/libros/${item.id}`)
+          await this.axios.delete(process.env.VUE_APP_API_URL+`/libros/${item.id}`)
           this.obtenerLista()
         } catch (error) {
           console.error('Error eliminando libro:', error)

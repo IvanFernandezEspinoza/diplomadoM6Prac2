@@ -1,6 +1,8 @@
 Practica 2 Vue3
 Nombre de integrante:
 - Ivan Alejandro Fernandez Espinoza
+
 Pasos para iniciar el proyecto
 1) npm install
+2) json-server --watch db.json --port 4000
 2) npm run serve

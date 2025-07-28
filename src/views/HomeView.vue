@@ -1,7 +1,7 @@
 <template>
   <section class="hero">
-    <h2>Bienvenido al Sistema de Gestión de Biblioteca</h2>
-    <p>Gestiona libros, ejemplares, préstamos y usuarios de manera eficiente</p>
+    <h2>Bienvenido al Sistema de Gestión de Biblioteca USIP</h2>
+    <p>Gestiona libros, ejemplares, prestamos y usuarios de manera eficiente</p>
   </section>
 
   <section id="stats" class="mt-4">
@@ -51,9 +51,9 @@ export default {
     async obtenerEstadisticas() {
       try {
         const [librosRes, ejemplaresRes, prestamosRes] = await Promise.all([
-          this.axios.get('/libros'),
-          this.axios.get('/ejemplares?estado=disponible'),
-          this.axios.get('/prestamos?estado=activo')
+          this.axios.get(process.env.VUE_APP_API_URL+'/libros'),
+          this.axios.get(process.env.VUE_APP_API_URL+'/ejemplares?estado=disponible'),
+          this.axios.get(process.env.VUE_APP_API_URL+'/prestamos?estado=activo')
         ])
         
         this.librosCount = librosRes.data.length

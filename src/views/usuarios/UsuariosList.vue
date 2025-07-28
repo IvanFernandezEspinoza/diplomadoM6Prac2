@@ -104,7 +104,7 @@ export default {
     },
     async nuevo(item) {
       try {
-        await this.axios.post('/usuarios', item)
+        await this.axios.post(process.env.VUE_APP_API_URL+'/usuarios', item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -113,7 +113,7 @@ export default {
     },
     async modificar(item) {
       try {
-        await this.axios.patch(`/usuarios/${item.id}`, item)
+        await this.axios.patch(process.env.VUE_APP_API_URL+`/usuarios/${item.id}`, item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -123,7 +123,7 @@ export default {
     async eliminar(item) {
       if (confirm(`¿Está seguro de eliminar al usuario ${item.nombre}?`)) {
         try {
-          await this.axios.delete(`/usuarios/${item.id}`)
+          await this.axios.delete(process.env.VUE_APP_API_URL+`/usuarios/${item.id}`)
           this.obtenerLista()
         } catch (error) {
           console.error('Error eliminando usuario:', error)

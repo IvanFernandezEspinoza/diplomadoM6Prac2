@@ -13,6 +13,16 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Entrar</button>
       </form>
+      <div style="color: red;">
+        <br>
+        <p>
+          datos sugeridos: 
+        </p>
+        <p>
+          <strong>Correo:</strong> <p> ivan@biblioteca.com</p>
+          <strong>Contraseña:</strong> <p> admin123</p>
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +42,7 @@ export default {
     ...mapActions(['setToken', 'setRol', 'setNombre']),
     async login() {
       try {
-        // const response = await this.axios.get(`/encargados?email=${this.email}&password=${this.password}`)
+        
         // const response = await this.axios.get(`http://localhost:4000/encargados?email=${this.email}&password=${this.password}`)
         const response = await this.axios.get(`${process.env.VUE_APP_API_URL}/encargados?email=${this.email}&password=${this.password}`)
 

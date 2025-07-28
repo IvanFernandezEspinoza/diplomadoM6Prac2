@@ -2,7 +2,7 @@
   <form @submit.prevent="emitir($event)" novalidate>
     <div class="mb-3">
       <label class="form-label">Libro *</label>
-      <select v-model="item.libroId" class="form-select" required>
+      <select v-model="item.libroId" class="form-select" required @change="validarEjemplar">
         <option value="">Seleccione un libro...</option>
         <option v-for="libro in libros" :key="libro.id" :value="libro.id">
           {{ libro.titulo }} ({{ libro.autor }})
@@ -54,19 +54,40 @@ export default {
       item: {
         libroId: '',
         codigo: '',
-        estado: '',
+        estado: 'disponible', // Valor por defecto
         ubicacion: ''
       }
     }
   },
   methods: {
+    validarEjemplar() {
+      // Puedes agregar validaciones adicionales aquí si necesitas
+      console.log('Libro seleccionado:', this.item.libroId);
+    },
     emitir(event) {
-      const form = event.target
+      const form = event.target;
       if (!form.checkValidity()) {
-        form.classList.add('was-validated')
-        return
+        form.classList.add('was-validated');
+        return;
       }
-      this.$emit('created', this.item)
+      
+      // Emitir el evento con los datos limpios
+      this.$emit('created', {
+        ...this.item,
+        codigo: this.item.codigo.trim(),
+        ubicacion: this.item.ubicacion.trim()
+      });
+      
+      // Resetear el formulario después de emitir
+      this.resetForm();
+    },
+    resetForm() {
+      this.item = {
+        libroId: '',
+        codigo: '',
+        estado: 'disponible',
+        ubicacion: ''
+      };
     }
   }
 }

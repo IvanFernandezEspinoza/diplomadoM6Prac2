@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1><router-link to="/">Sistema Biblioteca</router-link></h1>
+    <h1><router-link to="/">Sistema Biblioteca USIP</router-link></h1>
     <nav>
       <router-link v-if="isLogin && tieneAutorizacion(['administrador'])" to="/encargados">Encargados</router-link>
       <router-link v-if="isLogin && tieneAutorizacion(['administrador', 'encargado'])" to="/usuarios">Usuarios</router-link>
@@ -20,7 +20,7 @@
   </div>
 
   <footer>
-    <p>&copy; 2023 Sistema de Biblioteca. Todos los derechos reservados.</p>
+    <p>&copy; 2025 Sistema de Biblioteca USIP. Todos los derechos reservados.</p>
   </footer>
 </template>
 

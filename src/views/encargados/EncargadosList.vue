@@ -80,7 +80,7 @@ export default {
   methods: {
     async obtenerLista() {
       try {
-        const response = await this.axios.get('/encargados')
+        const response = await this.axios.get(`${process.env.VUE_APP_API_URL}/encargados`)
         this.items = response.data
       } catch (error) {
         console.error('Error obteniendo encargados:', error)
@@ -102,7 +102,7 @@ export default {
     },
     async nuevo(item) {
       try {
-        await this.axios.post('/encargados', item)
+        await this.axios.post(`${process.env.VUE_APP_API_URL}/encargados`, item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -111,7 +111,7 @@ export default {
     },
     async modificar(item) {
       try {
-        await this.axios.patch(`/encargados/${item.id}`, item)
+        await this.axios.patch(`${process.env.VUE_APP_API_URL}/encargados/${item.id}`, item)
         this.cerrarModal()
         this.obtenerLista()
       } catch (error) {
@@ -121,7 +121,7 @@ export default {
     async eliminar(item) {
       if (confirm(`¿Está seguro de eliminar al encargado ${item.nombre}?`)) {
         try {
-          await this.axios.delete(`/encargados/${item.id}`)
+          await this.axios.delete(`${process.env.VUE_APP_API_URL}/encargados/${item.id}`)
           this.obtenerLista()
         } catch (error) {
           console.error('Error eliminando encargado:', error)

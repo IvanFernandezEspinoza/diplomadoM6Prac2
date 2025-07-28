@@ -2,10 +2,15 @@
   <form @submit.prevent="emitir($event)" novalidate>
     <div class="mb-3">
       <label class="form-label">Ejemplar *</label>
-      <select v-model="item.ejemplarId" class="form-select" required @change="ejemplarSeleccionado">
-        <option value="">Seleccione un ejemplar...</option>
-        <option v-for="ejemplar in ejemplares" :key="ejemplar.id" :value="ejemplar.id">
-          {{ ejemplar.codigo }} - {{ ejemplar.libro.titulo }}
+      <select v-model="item.ejemplarId" class="form-select" required>
+        <option value="">Seleccione un ejemplar</option>
+        <option 
+          v-for="ejemplar in ejemplares" 
+          :key="ejemplar.id" 
+          :value="ejemplar.id"
+          :disabled="ejemplar.estado !== 'disponible'"
+        >
+          {{ obtenerDescripcionEjemplar(ejemplar) }}
         </option>
       </select>
       <div class="invalid-feedback">Seleccione un ejemplar</div>
@@ -53,10 +58,17 @@ export default {
   props: {
     ejemplares: {
       type: Array,
+      default: () => [],
       required: true
     },
     usuarios: {
       type: Array,
+      default: () => [],
+      required: true
+    },
+    encargados: {
+      type: Array,
+      default: () => [],
       required: true
     }
   },
@@ -65,26 +77,28 @@ export default {
       item: {
         ejemplarId: '',
         usuarioId: '',
-        encargadoId: localStorage.getItem('userId') || '',
+        encargadoId: '',
         fecha_prestamo: new Date().toISOString().split('T')[0],
-        fecha_devolucion_estimada: this.calcularFechaDevolucion(),
+        fecha_devolucion_estimada: this.calcularFechaDevolucion(15),
         observaciones: '',
         estado: 'activo'
       }
     }
   },
   methods: {
-    calcularFechaDevolucion() {
+    calcularFechaDevolucion(dias) {
       const fecha = new Date()
-      fecha.setDate(fecha.getDate() + 14) // 2 semanas por defecto
+      fecha.setDate(fecha.getDate() + dias)
       return fecha.toISOString().split('T')[0]
     },
-    ejemplarSeleccionado() {
-      const ejemplar = this.ejemplares.find(e => e.id == this.item.ejemplarId)
-      if (ejemplar && ejemplar.estado !== 'disponible') {
-        alert('Este ejemplar no está disponible para préstamo')
-        this.item.ejemplarId = ''
+    obtenerDescripcionEjemplar(ejemplar) {
+      if (!ejemplar) return 'Ejemplar no disponible'
+      
+      if (ejemplar.libro) {
+        return `${ejemplar.codigo} - ${ejemplar.libro.titulo} (${ejemplar.estado})`
       }
+      
+      return `${ejemplar.codigo} (${ejemplar.estado})`
     },
     emitir(event) {
       const form = event.target
